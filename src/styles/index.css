@@ -1,0 +1,185 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display:
+    'Montserrat Variable', 'Montserrat', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --color-primary: #5463b1;
+  --color-primary-strong: #44529c;
+  --color-primary-50: #eef0fa;
+  --color-primary-100: #e4e8f8;
+  --color-primary-200: #c9d0ef;
+  --color-ink: #0b0b0f;
+  --color-ink-soft: #17171d;
+  --color-body: #444752;
+  --color-muted: #666a78;
+  --color-canvas: #f7f8fc;
+  --color-line: #e5e7ef;
+  --color-success: #16a34a;
+  --color-success-strong: #15803d;
+  --color-success-50: #e9f7ee;
+  --color-success-300: #86efac;
+
+  --radius-card: 1.5rem;
+  --radius-panel: 2rem;
+
+  --shadow-soft: 0 1px 2px rgb(11 11 15 / 0.04), 0 8px 24px -12px rgb(42 52 110 / 0.12);
+  --shadow-lifted: 0 2px 4px rgb(11 11 15 / 0.04), 0 24px 48px -20px rgb(42 52 110 / 0.28);
+  --shadow-phone: 0 2px 6px rgb(11 11 15 / 0.08), 0 40px 80px -32px rgb(42 52 110 / 0.45);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-white font-sans text-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-ink;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+}
+
+@layer components {
+  .phone-mockup {
+    --phone-scale: 1;
+    width: calc(300px * var(--phone-scale));
+    height: calc(624px * var(--phone-scale));
+  }
+
+  .phone-mockup__device {
+    width: 300px;
+    height: 624px;
+    transform: scale(var(--phone-scale));
+    transform-origin: top left;
+  }
+
+  .bg-grid-faint {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.08) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 70% 40%, black 20%, transparent 75%);
+  }
+
+  .estimator-range {
+    --fill: 0%;
+    appearance: none;
+    height: 6px;
+    border-radius: 999px;
+    cursor: pointer;
+    background: linear-gradient(
+      to right,
+      var(--color-success-300) var(--fill),
+      rgb(255 255 255 / 0.16) var(--fill)
+    );
+  }
+
+  .estimator-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 0 0 5px rgb(134 239 172 / 0.25);
+  }
+
+  .estimator-range::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 0 0 5px rgb(134 239 172 / 0.25);
+  }
+
+  .estimator-range:focus-visible {
+    outline-color: #fff;
+    outline-offset: 8px;
+  }
+
+  .marquee {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .marquee-track {
+    animation: marquee 36s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .spotlight-card {
+    --spot-color: rgb(84 99 177 / 0.12);
+    position: relative;
+    isolation: isolate;
+  }
+
+  .spotlight-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms var(--ease-out-expo);
+    background: radial-gradient(
+      380px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      var(--spot-color),
+      transparent 65%
+    );
+  }
+
+  @media (hover: hover) {
+    .spotlight-card:hover::before {
+      opacity: 1;
+    }
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
